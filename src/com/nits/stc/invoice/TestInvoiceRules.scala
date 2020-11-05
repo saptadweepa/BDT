@@ -42,13 +42,13 @@ class TestInvoiceRules extends FunSuite {
 //  var targetDF_Customer = Extractor.extract(Resource.AVRO,targetCustomer , null)
 
   val statusOptions = Config.readNestedKey(config, "STATUS")
-  var statusPath = uri + "/status/invoice/STATUS_20201030163904/*.avro"
+  var statusPath = uri + "/status/invoice/STATUS_20201103110306/*.avro"
 
   println(statusPath)
   var statusCols = statusOptions("COLUMNS").split(",").toSeq
   var statusDF = Extractor.extract(Resource.AVRO, statusPath, null)
 
-  test("Invoice Close Date is null") {
+  test("Verify Invoice Close Date is null") {
     var statusDFExpected = statusDF.filter(col("INV_CLOSE_DATE").isNull && col("prc") === lit("REJECTED"))
     val expected = statusDFExpected.count()
     val actual = statusDF.filter(col("inference").contains("Invoice Close Date is null.")).count()
@@ -143,7 +143,7 @@ class TestInvoiceRules extends FunSuite {
 
 
     val expected = statusDFExpected.count()
-    val actual = statusDF.filter(col("inference").contains("Duplicate Invoice.")).count()
+    val actual = statusDFExpected.filter(col("inference").contains("Duplicate Invoice.")).count()
     println(expected+ " " +actual)
     //println(statusDFExpected.select(col("inference")).first().get(0))
     assert(expected == actual)

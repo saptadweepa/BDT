@@ -25,16 +25,18 @@ object PrintStatus_Df_Invoice {
     val statusOptions = Config.readNestedKey(config, "STATUS")
    // var statusPath = uri + statusOptions("PATH") + "//STATUS_20201020150215//*.avro"
 
-    var statusPath = uri + statusOptions("PATH") + "//STATUS_20201030163904//*.avro"
+    var statusPath = uri + statusOptions("PATH") + "//STATUS_20201103110306//*.avro"
     //status dataframe
     println(statusPath)
     var statusCols = statusOptions("COLUMNS").split(",").toSeq
     var statusDF = Extractor.extract(Resource.AVRO, statusPath, null)
-      statusDF.show()
-    println("count of CI_DLR_CODE is Notnull :" + statusDF.filter(col("CI_DLR_CODE").isNotNull).count())
+      statusDF.select().show()
+    println("count of ITM_PART_NUMBER is null :" + statusDF.filter(col("ITM_PART_NUMBER").isNull).count())
 
-    var NotNull = statusDF.filter(col("INV_CLOSE_DATE").isNotNull).count()
-    println("INV_CLOSE_DATE not null count"+NotNull)
+    var NullCount = statusDF.filter(col("YEARQTR").isNull).count()
+    println("YEARQTR  null count"+NullCount)
+
+
     //statusDF.filter(Util.isEmptyString(col("CI_DLR_CODE"))).show()
     /*println("count of records for statusDF:  " + statusDF.count())
 
@@ -90,6 +92,7 @@ object PrintStatus_Df_Invoice {
     println("CUST_RET_WHOLESALE_FLAG contains W count: " +countOf_W)
     println("CUST_RET_WHOLESALE_FLAG contains R count: " +countOf_R)
   }
+
 
 
 
