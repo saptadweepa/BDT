@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="scala-sdk-2.11.12" level="application" />
+    <orderEntry type="library" name="utc-1.0.0" level="project" />
+    <orderEntry type="library" name="viobyvin-assembly-1.0.0" level="project" />
+    <orderEntry type="library" name="vehiclesales-1.0.0" level="project" />
+    <orderEntry type="library" name="service-1.0.0" level="project" />
+    <orderEntry type="library" name="partspurchases-1.0.0" level="project" />
+    <orderEntry type="library" name="invoice-1.0.0" level="project" />
+    <orderEntry type="library" name="inventory-1.0.0" level="project" />
+    <orderEntry type="library" name="dealertract-1.0.0" level="project" />
+    <orderEntry type="library" name="datalake-assembly-1.0.0" level="project" />
+    <orderEntry type="library" name="activation-1.1.1" level="project" />
+    <orderEntry type="library" name="scalactic_2.11-3.0.0" level="project" />
+  </component>
+</module>
