@@ -333,7 +333,7 @@ class Test_InvoiceTransformer extends FunSuite {
 
     var ITM_PART_NUMBER_DF = statusDF.filter(col("ITM_PART_NUMBER").contains("PK")&& col("prc") === lit("SUCCESS"))
     assert(ITM_PART_NUMBER_DF.count() == 0)
-  //Complete this test
+
 
   }
 
