@@ -7,7 +7,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 import com.nits.etlcore.impl._
 import org.scalatest.FunSuite
-//git test
+
 class TestServiceRules extends FunSuite {
 
   val spark = SparkSession
