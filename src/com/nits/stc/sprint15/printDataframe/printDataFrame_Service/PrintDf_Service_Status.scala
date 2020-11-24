@@ -35,7 +35,7 @@ object PrintDf_Service_Status {
     var statusDF = Extractor.extract(Resource.AVRO, statusPath, null)
 
     //statusDF.select(col("RO_CLOSE_DATE"),col("CI_RO_CLOSE_DATE"),col("prc"),col("inference")).show(false)
-    //statusDF.show(false)
+    statusDF.show(false)
     println("count of records for statusDF:  " + statusDF.count())
 
     //statusDF.select(col("SOPR_OPERATION_CATEGORIES")).filter(col("SOPR_OPERATION_CATEGORIES").contains("MAINTENANCE")).show(false)
@@ -44,7 +44,13 @@ object PrintDf_Service_Status {
       .select(col("SOPR_BILLED_LABOR_HRS"), col("SOPR_ACTUAL_LABOR_HRS"), col("SOPR_LABOR_PRICE"),  col("inference")).show(false) */
 
     //statusDF.filter(col("VEH_MAKE") =!= lit("VOLKSWAGEN")).select(col("VEH_MAKE"), col("VEH_VIN"), col("prc"),  col("inference")).show(false)
-    statusDF.filter(col("OPERATIONS_CLOB_IS_NULL")=== lit("Y")).show()
+    //statusDF.filter(col("OPERATIONS_CLOB_IS_NULL")=== lit("Y")).show()
+
+   /* statusDF.filter(col("OPERATIONS_CLOB_IS_NULL")=== lit("Y")).select(col("OPERATIONS_CLOB_IS_NULL"), col("RO_ADVISOR_CONTACT_ID"),
+      col("RO_ADVISOR_FIRST_NAME"),  col("RO_ADVISOR_MIDDLE_NAME"), col("RO_ADVISOR_LAST_NAME"),  col("RO_ADVISOR_SALUTATION"),
+      col("RO_ADVISOR_SUFFIX"), col("RO_ADVISOR_FULL_NAME")).show(false)*/
+
+
   }
 
 }
