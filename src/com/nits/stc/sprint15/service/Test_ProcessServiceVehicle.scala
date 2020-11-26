@@ -49,7 +49,7 @@ class Test_ProcessServiceVehicle extends FunSuite {
   var statusCols = statusOptions("COLUMNS").split(",").toSeq
   var statusDF = Extractor.extract(Resource.AVRO, statusPath, null)
 
-  test("Number of VINS in Output should same as number of VINS in Input"){
+  test("Number of VINS in Output should same as number of VINS in Input "){
     assert(sourceDF.count() == statusDF.count())
 
   }

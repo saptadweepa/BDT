@@ -175,27 +175,7 @@ test(" total of 10 Repair Order Parts columns starting with PARTS_COL_"){
 
   }
 
-/*  test("Count of  RO_CLASS_TYPE to EXP should not be zero"){
 
-    var RO_CLASS_TYPE_parts_Count = targetDF_RO_Parts.filter(col("RO_CLASS_TYPE")=== lit("EXP")).count()
-    println("RO_CLASS_TYPE == EXP count in RO_parts: "+RO_CLASS_TYPE_parts_Count)
-
-    var RO_CLASS_TYPE_Tech_Count = targetDF_RO_Tech.filter(col("RO_CLASS_TYPE")=== lit("EXP")).count()
-    println("RO_CLASS_TYPE == EXP count in RO_Tech: "+RO_CLASS_TYPE_Tech_Count)
-
-
-  }
-
-  test("Count of  RO_CLASS_TYPE to WKS should not be zero"){
-
-    var RO_CLASS_TYPE_parts_Count = targetDF_RO_Parts.filter(col("RO_CLASS_TYPE")=== lit("WKS")).count()
-    println("RO_CLASS_TYPE == WKS count in RO_parts: "+RO_CLASS_TYPE_parts_Count)
-
-    var RO_CLASS_TYPE_Tech_Count = targetDF_RO_Tech.filter(col("RO_CLASS_TYPE")=== lit("WKS")).count()
-    println("RO_CLASS_TYPE == WKS count in RO_Tech: "+RO_CLASS_TYPE_Tech_Count)
-
-
-  }*/
 
   test("should set RO_WARRANTY_FLAG to N when any of rows of operations belonging to an RO have WARRANTY_FLAG = N"){
 
