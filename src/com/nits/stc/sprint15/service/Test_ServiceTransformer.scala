@@ -59,6 +59,7 @@ class Test_ServiceTransformer extends FunSuite {
   }
 
   test("should flatten the dataset to contain RO Rows when the OPERATIONS_CLOB is null") {
+
     var RO_DF = statusDF.filter(col("OPERATIONS_CLOB_IS_NULL") === lit("Y"))
 
     var RO_notNull_count = RO_DF.filter(col("OPERATIONS_CLOB_IS_NULL").isNotNull || col("RO_ADVISOR_CONTACT_ID").isNotNull ||
@@ -69,7 +70,7 @@ class Test_ServiceTransformer extends FunSuite {
     assert(RO_notNull_count != 0)
   }
 
-    test("should return total of 18 for SERVICE OPERATIONS with columns starting with SOPR_"){
+    test(" total of 18 for SERVICE OPERATIONS with columns starting with SOPR_"){
 
       var SOPR_Col= statusDF.columns
       var count_res = 0
@@ -84,31 +85,9 @@ class Test_ServiceTransformer extends FunSuite {
 
     }
 
-  test("Dummy"){
-    var status_Col= statusDF.columns
-    var status_Col_count = status_Col.size
-    println("status column count :" +status_Col_count)
-
-    var RO_Tech_Col= targetDF_RO_Tech.columns
-    var RO_Tech_Col_count = RO_Tech_Col.size
-    println("RO_tech column count :" +RO_Tech_Col_count)
-
-    var RO_Parts_Col= targetDF_RO_Parts.columns
-    var RO_Parts_Col_count = RO_Parts_Col.size
-    println("RO_parts column count :" +RO_Parts_Col_count)
-
-    var Vin_master_Col= targetDFVin_Master.columns
-    var Vin_master_Col_count = Vin_master_Col.size
-    println("Vin_master column count :" +Vin_master_Col_count)
-
-    var source_Col= sourceDF.columns
-    var source_Col_count = source_Col.size
-    println("source column count :" +source_Col_count)
 
 
-  }
-
-  test("should return total of 8 for Repair Order Technicians with columns starting with TECH_COL_"){
+  test(" total of 8 for Repair Order Technicians with columns starting with TECH_COL_"){
 
     var SOT_COL = targetDF_RO_Tech.columns
     var count_res = 0
@@ -124,7 +103,136 @@ class Test_ServiceTransformer extends FunSuite {
 
   }
 
-//commentgit
+test(" total of 10 Repair Order Parts columns starting with PARTS_COL_"){
+
+  var SOPT_COL = targetDF_RO_Parts.columns
+  var count_res = 0
+  for (i <- 0 to SOPT_COL.size - 1) {
+    println(SOPT_COL(i))
+    if(SOPT_COL(i).contains("SOPT_")){
+      count_res = count_res +1
+    }
+  }
+
+  assert(count_res == 10)
+  
+}
+
+
+
+  test(" should generate columns RO_WARRANTY_FLAG, RO_INTERNAL_FLAG, RO_CUSTPAY_FLAG"){
+
+    var RO_Columns1 = Seq("RO_WARRANTY_FLAG", "RO_INTERNAL_FLAG", "RO_CUSTPAY_FLAG")
+    var RO_Tech_Col = targetDF_RO_Tech.columns
+    println("columns of RO_Tech DF: ")
+    RO_Tech_Col.foreach((element: String) => print(element + " "))
+    println()
+    RO_Columns1.foreach(element => assert(RO_Tech_Col.contains(element)))
+
+    var RO_Columns = Seq("RO_WARRANTY_FLAG", "RO_INTERNAL_FLAG", "RO_CUSTPAY_FLAG")
+    var RO_Parts_Col = targetDF_RO_Parts.columns
+    println("columns of RO_Parts DF: ")
+    RO_Parts_Col.foreach((element: String) => print(element + " "))
+    println()
+    RO_Columns.foreach(element => assert(RO_Parts_Col.contains(element)))
+
+  }
+
+  test("should set RO_WARRANTY_FLAG to Y when any of rows of operations belonging to an RO have WARRANTY_FLAG = Y"){
+
+    var WARRANTY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("WARRANTY_FLAG")=== lit("Y")).count()
+    var RO_WARRANTY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("RO_WARRANTY_FLAG") === lit("Y")).count()
+    assert(WARRANTY_FLAG_parts_Count == RO_WARRANTY_FLAG_parts_Count)
+
+    var WARRANTY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("WARRANTY_FLAG")=== lit("Y")).count()
+    var RO_WARRANTY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("RO_WARRANTY_FLAG") === lit("Y")).count()
+    assert(WARRANTY_FLAG_Tech_Count == RO_WARRANTY_FLAG_Tech_Count)
+
+  }
+
+  test("should set RO_INTERNAL_FLAG to Y when any of rows of operations belonging to an RO have INTERNAL_FLAG = Y"){
+
+    var INTERNAL_FLAG_parts_Count = targetDF_RO_Parts.filter(col("INTERNAL_FLAG")=== lit("Y")).count()
+    var RO_INTERNAL_FLAG_parts_Count = targetDF_RO_Parts.filter(col("RO_INTERNAL_FLAG") === lit("Y")).count()
+    assert(INTERNAL_FLAG_parts_Count == RO_INTERNAL_FLAG_parts_Count)
+
+    var INTERNAL_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("INTERNAL_FLAG")=== lit("Y")).count()
+    var RO_INTERNAL_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("RO_INTERNAL_FLAG") === lit("Y")).count()
+    assert(INTERNAL_FLAG_Tech_Count == RO_INTERNAL_FLAG_Tech_Count)
+
+
+  }
+
+  test("should set RO_CUSTPAY_FLAG to Y when any of rows of operations belonging to an RO have CUSTPAY_FLAG = Y"){
+
+    var CUSTPAY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("CUSTPAY_FLAG")=== lit("Y")).count()
+    var RO_CUSTPAY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("RO_CUSTPAY_FLAG") === lit("Y")).count()
+    assert(CUSTPAY_FLAG_parts_Count == RO_CUSTPAY_FLAG_parts_Count)
+
+    var CUSTPAY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("CUSTPAY_FLAG")=== lit("Y")).count()
+    var RO_CUSTPAY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("RO_CUSTPAY_FLAG") === lit("Y")).count()
+    assert(CUSTPAY_FLAG_Tech_Count == RO_CUSTPAY_FLAG_Tech_Count)
+
+  }
+
+/*  test("Count of  RO_CLASS_TYPE to EXP should not be zero"){
+
+    var RO_CLASS_TYPE_parts_Count = targetDF_RO_Parts.filter(col("RO_CLASS_TYPE")=== lit("EXP")).count()
+    println("RO_CLASS_TYPE == EXP count in RO_parts: "+RO_CLASS_TYPE_parts_Count)
+
+    var RO_CLASS_TYPE_Tech_Count = targetDF_RO_Tech.filter(col("RO_CLASS_TYPE")=== lit("EXP")).count()
+    println("RO_CLASS_TYPE == EXP count in RO_Tech: "+RO_CLASS_TYPE_Tech_Count)
+
+
+  }
+
+  test("Count of  RO_CLASS_TYPE to WKS should not be zero"){
+
+    var RO_CLASS_TYPE_parts_Count = targetDF_RO_Parts.filter(col("RO_CLASS_TYPE")=== lit("WKS")).count()
+    println("RO_CLASS_TYPE == WKS count in RO_parts: "+RO_CLASS_TYPE_parts_Count)
+
+    var RO_CLASS_TYPE_Tech_Count = targetDF_RO_Tech.filter(col("RO_CLASS_TYPE")=== lit("WKS")).count()
+    println("RO_CLASS_TYPE == WKS count in RO_Tech: "+RO_CLASS_TYPE_Tech_Count)
+
+
+  }*/
+
+  test("should set RO_WARRANTY_FLAG to N when any of rows of operations belonging to an RO have WARRANTY_FLAG = N"){
+
+    var WARRANTY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("WARRANTY_FLAG")=== lit("N")).count()
+    var RO_WARRANTY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("RO_WARRANTY_FLAG") === lit("N")).count()
+    assert(WARRANTY_FLAG_parts_Count == RO_WARRANTY_FLAG_parts_Count)
+
+    var WARRANTY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("WARRANTY_FLAG")=== lit("N")).count()
+    var RO_WARRANTY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("RO_WARRANTY_FLAG") === lit("N")).count()
+    assert(WARRANTY_FLAG_Tech_Count == RO_WARRANTY_FLAG_Tech_Count)
+
+  }
+
+  test("should set RO_INTERNAL_FLAG to N when any of rows of operations belonging to an RO have INTERNAL_FLAG = N"){
+
+    var INTERNAL_FLAG_parts_Count = targetDF_RO_Parts.filter(col("INTERNAL_FLAG")=== lit("N")).count()
+    var RO_INTERNAL_FLAG_parts_Count = targetDF_RO_Parts.filter(col("RO_INTERNAL_FLAG") === lit("N")).count()
+    assert(INTERNAL_FLAG_parts_Count == RO_INTERNAL_FLAG_parts_Count)
+
+    var INTERNAL_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("INTERNAL_FLAG")=== lit("N")).count()
+    var RO_INTERNAL_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("RO_INTERNAL_FLAG") === lit("N")).count()
+    assert(INTERNAL_FLAG_Tech_Count == RO_INTERNAL_FLAG_Tech_Count)
+
+
+  }
+
+  test("should set RO_CUSTPAY_FLAG to N when any of rows of operations belonging to an RO have CUSTPAY_FLAG = N"){
+
+    var CUSTPAY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("CUSTPAY_FLAG")=== lit("N")).count()
+    var RO_CUSTPAY_FLAG_parts_Count = targetDF_RO_Parts.filter(col("RO_CUSTPAY_FLAG") === lit("N")).count()
+    assert(CUSTPAY_FLAG_parts_Count == RO_CUSTPAY_FLAG_parts_Count)
+
+    var CUSTPAY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("CUSTPAY_FLAG")=== lit("N")).count()
+    var RO_CUSTPAY_FLAG_Tech_Count = targetDF_RO_Tech.filter(col("RO_CUSTPAY_FLAG") === lit("N")).count()
+    assert(CUSTPAY_FLAG_Tech_Count == RO_CUSTPAY_FLAG_Tech_Count)
+
+  }
 
     
 
