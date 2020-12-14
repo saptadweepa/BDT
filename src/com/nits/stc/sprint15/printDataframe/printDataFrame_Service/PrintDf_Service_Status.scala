@@ -28,7 +28,7 @@ object PrintDf_Service_Status {
     var options = Config.readNestedKey(config, "SOURCE")
     var Extractor = new DFExtractor()
     val statusOptions = Config.readNestedKey(config, "STATUS")
-    var statusPath = uri + statusOptions("PATH") + "//STATUS_20201111173756//*.avro"
+    var statusPath = uri + statusOptions("PATH") + "//STATUS_*/*.avro"
     //status dataframe
     println(statusPath)
     var statusCols = statusOptions("COLUMNS").split(",").toSeq
